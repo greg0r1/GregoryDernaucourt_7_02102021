@@ -1,0 +1,54 @@
+.tag {
+
+    color: #FFF;
+    display: flex;
+    cursor: default !important;
+
+    &:hover {
+        color: #FFF;
+    }
+
+    &.bg-blue {
+        background-color: $color-input-ingredients;
+    }
+
+    &.bg-red {
+        background-color: $color-input-kitchenTool;
+    }
+
+    &.bg-green {
+        background-color: $color-input-device;
+    }
+
+    .btn-close {
+        width: 1em;
+        height: 1em;
+        margin: auto 0 auto 5px;
+        border: 2px solid white;
+        border-radius: 50%;
+        background: none;
+        position: relative;
+
+        &::after,
+        &::before {
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            right: 20%;
+            content: " ";
+            height: 80%;
+            width: 2px;
+            background-color: #fff;
+            margin: auto;
+        }
+
+        &::after {
+            transform: rotate(-45deg);
+        }
+
+        &::before {
+            transform: rotate(45deg);
+        }
+    }
+
+}

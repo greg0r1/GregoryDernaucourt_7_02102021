@@ -1,0 +1,59 @@
+.inputBtn {
+    position: relative;
+    width: 170px;
+    border: none;
+
+    input {
+        color: #FFF;
+        text-align: initial;
+        cursor: auto !important;
+
+        &.btn:focus,
+        &.btn:focus-visible,
+        &.btn:focus-within {
+            outline: transparent;
+            box-shadow: unset;
+        }
+
+        &.btn:focus::placeholder,
+        &.btn:focus-within::placeholder {
+            color: transparent;
+        }
+
+        &::after {
+            cursor: pointer;
+        }
+    }
+
+    button.rotate::after {
+        transform: rotate(180deg);
+    }
+
+    input.btn::placeholder,
+    button::after,
+    input.btn:hover {
+        color: #FFF;
+    }
+
+    button.btn.dropdown-toggle:focus {
+        box-shadow: unset;
+    }
+
+    .dropdown-menu {
+        left: 0;
+        right: 0;
+        border: none;
+        border-radius: 0 0 .25rem .25rem;
+        transform: translateY(-.32rem);
+
+        .dropdown-item-ingredients,
+        .dropdown-item-ustensils,
+        .dropdown-item-appliance {
+            color: #FFF;
+        }
+    }
+
+    .input-group-prepend .btn {
+        position: unset;
+    }
+}
