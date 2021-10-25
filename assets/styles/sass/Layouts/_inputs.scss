@@ -1,0 +1,23 @@
+.inputBtn-ingredients {
+    background: $color-input-ingredients;
+
+    .dropdown-menu {
+        background: $color-input-ingredients;
+    }
+}
+
+.inputBtn-appliance {
+    background: $color-input-device;
+
+    .dropdown-menu {
+        background: $color-input-device;
+    }
+}
+
+.inputBtn-ustensils {
+    background: $color-input-kitchenTool;
+
+    .dropdown-menu {
+        background: $color-input-kitchenTool;
+    }
+}

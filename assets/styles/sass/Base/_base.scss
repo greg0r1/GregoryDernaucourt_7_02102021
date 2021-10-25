@@ -1,0 +1,29 @@
+/*
+* _base.scss
+*/
+
+:root {
+
+    [type="button"]:not(:disabled),
+    [type="reset"]:not(:disabled),
+    [type="submit"]:not(:disabled),
+    button:not(:disabled) {
+        cursor: pointer;
+    }
+
+    [type="button"],
+    [type="reset"],
+    [type="submit"],
+    button {
+        -webkit-appearance: button;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    li {
+        list-style: none;
+    }
+}

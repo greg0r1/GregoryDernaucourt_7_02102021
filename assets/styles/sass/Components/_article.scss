@@ -1,0 +1,55 @@
+.recipe {
+
+    aspect-ratio: 1/1;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    span,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+
+    p,
+    li {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -moz-box-orient: vertical;
+        -ms-box-orient: vertical;
+        box-orient: vertical;
+        -webkit-line-clamp: 6;
+        -moz-line-clamp: 6;
+        -ms-line-clamp: 6;
+        line-clamp: 6;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    span:first-child {
+        font-weight: 600;
+    }
+
+    .card-img-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50%;
+        width: 100%;
+        overflow: hidden;
+
+        img {
+            object-fit: cover;
+            width: 100%;
+        }
+    }
+
+    section.card-body {
+        height: 50%;
+
+        .time {
+            span {
+                font-size: 18px;
+            }
+        }
+    }
+}
