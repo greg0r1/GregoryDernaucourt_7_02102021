@@ -57,16 +57,13 @@ export default class Controller {
     }
 
     displayTagsInputFields() {
-        const inputsElements = Array.from(document.querySelectorAll("#inputsForm input"))
-        inputsElements.forEach((element) => {
-            if (element.id === 'appliance') {
-                let tagsAppliance = this.dataservice.getTagsAppliance()
-                tagsAppliance.forEach((el) => InputButton.renderInputTags('appliance', el))
-            } else if (element.id === 'ustensils') {
-                let tagsUstensils = this.dataservice.getTagsUstensils()
-                tagsUstensils.forEach((el) => InputButton.renderInputTags('ustensils', el))
-            }
-        })
+        let tagsAppliance = this.dataservice.getTagsAppliance()
+        document.querySelector(".inputBtn-appliance .dropdown-menu").innerHTML = ''
+        tagsAppliance.forEach((el) => InputButton.renderInputTags('appliance', el))
+        document.querySelector(".inputBtn-ustensils .dropdown-menu").innerHTML = ''
+        let tagsUstensils = this.dataservice.getTagsUstensils()
+        tagsUstensils.forEach((el) => InputButton.renderInputTags('ustensils', el))
+
         this.displayTag()
     }
 
@@ -102,16 +99,21 @@ export default class Controller {
             const array = this.dataservice.recipes
             this.dataservice.filter(array, tag)
             this.displayRecipes(this.dataservice.recipes)
+            this.displayTagsInputFields()
             this.closeTag()
         })
     }
 
     closeTag() {
         EventService.handleTagsClose((el) => {
-            this.dataservice.getRecipes()
-            const array = this.dataservice.recipes
-            this.displayRecipes(array)
             el.parentNode.remove()
+            this.dataservice.arrayFromValuesRequests()
+            this.dataservice.getRecipes()
+            this.dataservice.currentValuesRequests.forEach(el => {
+                this.dataservice.filter(this.dataservice.recipes, el)
+            })
+            this.displayRecipes(this.dataservice.recipes)
+            this.displayTagsInputFields()
         })
     }
 

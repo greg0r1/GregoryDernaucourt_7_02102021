@@ -38,10 +38,10 @@ export default class InputButton {
 
     static renderTags(tag, bg) {
         document.querySelector('.tags .row').innerHTML += `
-        <div class="tag btn p-2 m-2 bg-${bg}">${tag}
-            <button type="button" class="btn-close" aria-label="Close"></button>
-        </div>
-        `
+            <div class="tag btn p-2 m-2 bg-${bg}">${tag}
+                <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+            `
     }
 
 

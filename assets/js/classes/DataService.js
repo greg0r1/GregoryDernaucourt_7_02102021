@@ -10,31 +10,13 @@ export default class DataService {
         this.filteredRecipesByUstensils = []
         this.filteredRecipesByAppliance = []
         this.filteredTags = []
+        this.currentValuesRequests = []
     }
 
     getRecipes() {
         const recipesFromJson = recipes
         return this.recipes = recipesFromJson
     }
-
-    // getArrayByFilterFromRecipes(filter) {
-    //     if (!filter) {
-    //         this.getRecipes()
-    //     } else {
-    //         // this.recipes = this.recipes.filter(({ name, description, ingredients }) => {
-    //         //     return name.toLowerCase().includes(filter.toLowerCase())
-    //         //     //  + description.toLowerCase().includes(filter.toLowerCase())
-    //         //     + element.ingredient.toLowerCase().includes(filter.toLowerCase())
-    //         //     this.filteredIngredients = this.recipes.filter(({ ingredients }) => ingredients[0].ingredient.toLowerCase().includes(filter.toLowerCase()))
-    //         //     console.log(this.filteredIngredients)
-    //         // })
-    //         this.recipes = this.recipes.filter(({ name }) => {
-    //             // const recipesReg = new RegExp(`^${filter}`, 'gi')
-    //             // console.log(recipesReg)
-    //             return name.match(filter.toLowerCase())
-    //         })
-    //     }
-    // }
 
     filter(arr = [], request = '') {
         request = request.toLowerCase()
@@ -71,6 +53,14 @@ export default class DataService {
         const allTags = this.recipes.reduce(
             (allTags, { ustensils }) => [...allTags, ...ustensils], []);
         return Array.from(new Set(allTags))
+    }
+
+    arrayFromValuesRequests() {
+        const tagsEl = Array.from(document.querySelectorAll('.tag'))
+        const inputValue = document.querySelector("#searchBar > form > input").value
+        this.currentValuesRequests = []
+        this.currentValuesRequests.push(inputValue)
+        tagsEl.forEach(e => this.currentValuesRequests.push(e.innerText))
     }
 
     // Tests
