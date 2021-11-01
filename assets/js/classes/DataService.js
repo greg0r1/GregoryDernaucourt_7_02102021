@@ -5,11 +5,6 @@ export default class DataService {
 
     constructor() {
         this.recipes = []
-        this.filteredRecipes = []
-        this.filteredRecipesByIngredients = []
-        this.filteredRecipesByUstensils = []
-        this.filteredRecipesByAppliance = []
-        this.filteredTags = []
         this.currentValuesRequests = []
     }
 
@@ -18,35 +13,55 @@ export default class DataService {
         return this.recipes = recipesFromJson
     }
 
+    // Filtre à partir de la search bar
     filter(arr = [], request = '') {
         request = request.toLowerCase()
         if (!request) {
             this.getRecipes()
         } else {
             this.recipes = arr.filter(({ name, description, ingredients }) => {
-                return ((name.toLowerCase().indexOf(request.toLowerCase())) && (description.toLowerCase().indexOf(request))) !== -1
+                const isIngredient = ingredients.filter(({ ingredient }) =>
+                    ingredient.toLowerCase().includes(request)
+                )
+                return ((name.toLowerCase().indexOf(request.toLowerCase())) > -1 || (description.toLowerCase().indexOf(request))) > -1 || isIngredient.lentgh > 0
             })
         }
     }
 
-    getRecipesByAdvancedSearch(array, filter) {
-        array.filter(({ name, description, ingredients }) => {
-            return name.toLowerCase().includes(filter.toLowerCase()) + description.toLowerCase().includes(filter.toLowerCase()) + ingredients[0].ingredient.toLowerCase().includes(filter.toLowerCase())
+    // Filtres à partir des tags des champs Ustensils, Appliance, Ingredients
+    filterRecipesByTagUstensils(request) {
+        this.recipes = this.recipes.filter(({ ustensils }) => {
+            const isUstensils = ustensils.filter(ustensil => {
+                return ustensil.toLowerCase() == request.toLowerCase()
+            })
+            return isUstensils[0] != undefined
         })
     }
 
-    getFilteredIngredients() {
-
+    filterRecipesByTagAppliance(request) {
+        this.recipes = this.recipes.filter(({ appliance }) => {
+            return appliance == request
+        })
     }
 
+    filterRecipesByTagIngredients(request) {
+        this.recipes = this.recipes.filter(({ ingredients }) => {
+            const isIngredient = ingredients.filter(({ ingredient }) =>
+                ingredient.toLowerCase().includes(request.toLowerCase())
+            )
+            return isIngredient[0] != undefined
+        })
+    }
+
+    // Récupère les tags pour les afficher dans les champs input
     getTagsAppliance() {
-        let array = []
+        const allTags = []
         this.recipes.forEach(element => {
-            if (array.findIndex(e => e === element.appliance) === -1) {
-                array.push(element.appliance)
+            if (allTags.findIndex(e => e === element.appliance) === -1) {
+                allTags.push(element.appliance)
             }
         })
-        return array
+        return allTags
     }
 
     getTagsUstensils() {
@@ -55,6 +70,23 @@ export default class DataService {
         return Array.from(new Set(allTags))
     }
 
+    getTagsIngredients() {
+        const allTags = []
+        this.recipes.forEach(e => e.ingredients.forEach(element => {
+            if (allTags.indexOf(element.ingredient.toLowerCase()) === -1) {
+                allTags.push(element.ingredient.toLowerCase())
+            }
+        }))
+        return allTags
+    }
+
+    // Filtre les tags pour les champs inputs 
+    filterTagsInputs(array, request) {
+        let result = array.filter(e => e.includes(request.toLowerCase()))
+        return result
+    }
+
+    // Récupère les valeurs dans l'interface pour les filtres
     arrayFromValuesRequests() {
         const tagsEl = Array.from(document.querySelectorAll('.tag'))
         const inputValue = document.querySelector("#searchBar > form > input").value
@@ -63,15 +95,5 @@ export default class DataService {
         tagsEl.forEach(e => this.currentValuesRequests.push(e.innerText))
     }
 
-    // Tests
-    filtrerRequete(obj, request) {
-        var elementsInvalides = 0;
-        if (obj.name !== undefined && obj.name === request) {
-            return true;
-        } else {
-            console.log(elementsInvalides++)
-            return false;
-        }
-    }
 
 }

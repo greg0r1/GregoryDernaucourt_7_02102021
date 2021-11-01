@@ -1,7 +1,17 @@
-.search {
-    background: $color-grey;
+#searchBar {
 
-    input:focus {
-        outline: none;
+    .search {
+        background: $color-grey;
+
+        input:focus {
+            outline: none;
+        }
+
+    }
+
+    .error-message {
+        margin: 5px;
+        font-size: 90%;
+        color: red;
     }
 }

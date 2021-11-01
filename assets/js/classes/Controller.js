@@ -20,7 +20,7 @@ export default class Controller {
         }).join('')
     }
 
-    displayRecipesFromFilter() {
+    displayRecipesFromSearchBarFilter() {
         EventService.handleSearchBarEvent((element) => {
             const array = this.dataservice.recipes
             if (element.value.length > 2) {
@@ -30,6 +30,16 @@ export default class Controller {
             } else {
                 this.dataservice.getRecipes()
                 this.displayRecipes(array)
+            }
+            if (this.dataservice.recipes.length == 0) {
+                if (!document.querySelector('.error-message')) {
+                    const div = document.createElement('div')
+                    div.classList.add('error-message')
+                    div.innerText = 'Aucune recette ne correspond à votre critère... vous pouvez chercher « tarte aux pommes », « poisson », etc.'
+                    document.getElementById('searchBar').appendChild(div)
+                }
+            } if (this.dataservice.recipes.length != 0 && document.querySelector('.error-message')) {
+                document.querySelector('.error-message').remove()
             }
         })
     }
@@ -45,26 +55,57 @@ export default class Controller {
         })
     }
 
-    displayRecipesFromAIngredientsInput() {
-        EventService.handleIngredientsInputEvent((element) => {
-            if (element.currentTarget.value.length > 3) {
-                this.dataservice.filterIngredients(this.dataservice.filteredRecipes, element.currentTarget.value)
-                this.displayRecipes(this.dataservice.filteredRecipesByIngredients)
-            } else if (element.currentTarget.value.length < 3) {
-                this.displayRecipes(this.dataservice.recipes)
-            }
-        })
-    }
-
     displayTagsInputFields() {
+        // Ingredients
+        let tagsIngredients = this.dataservice.getTagsIngredients()
+        document.querySelector(".inputBtn-ingredients .dropdown-menu").innerHTML = ''
+        const arrayByNElementsIngredients = this.chunk(tagsIngredients, 10)
+        arrayByNElementsIngredients.forEach((array, index) => {
+            const indexEl = index
+            const div = document.createElement('div')
+            div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
+            document.querySelector(`.inputBtn-ingredients .dropdown-menu`).appendChild(div)
+            array.forEach(item => {
+                InputButton.renderInputTags('ingredients', item, indexEl)
+            })
+        })
+
+        // Ustensils
+        let tagsUstensils = this.dataservice.getTagsUstensils()
+        document.querySelector(".inputBtn-ustensils .dropdown-menu").innerHTML = ''
+        const arrayByNElementsUstensils = this.chunk(tagsUstensils, 10)
+        arrayByNElementsUstensils.forEach((array, index) => {
+            const indexEl = index
+            const div = document.createElement('div')
+            div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
+            document.querySelector(`.inputBtn-ustensils .dropdown-menu`).appendChild(div)
+            array.forEach(item => {
+                InputButton.renderInputTags('ustensils', item, indexEl)
+            })
+        })
+
+        // Appliance
         let tagsAppliance = this.dataservice.getTagsAppliance()
         document.querySelector(".inputBtn-appliance .dropdown-menu").innerHTML = ''
-        tagsAppliance.forEach((el) => InputButton.renderInputTags('appliance', el))
-        document.querySelector(".inputBtn-ustensils .dropdown-menu").innerHTML = ''
-        let tagsUstensils = this.dataservice.getTagsUstensils()
-        tagsUstensils.forEach((el) => InputButton.renderInputTags('ustensils', el))
+        const arrayByNElementsAppliance = this.chunk(tagsAppliance, 10)
+        arrayByNElementsAppliance.forEach((array, index) => {
+            const indexEl = index
+            const div = document.createElement('div')
+            div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
+            document.querySelector(`.inputBtn-appliance .dropdown-menu`).appendChild(div)
+            array.forEach(item => {
+                InputButton.renderInputTags('appliance', item, indexEl)
+            })
+        })
 
+        // On affiche le tag sous la barre de recherche
         this.displayTag()
+    }
+
+    chunk(arr, size) {
+        return Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+            arr.slice(i * size, i * size + size)
+        )
     }
 
     displayTag() {
@@ -96,12 +137,43 @@ export default class Controller {
             InputButton.renderTags(tag, bg)
 
             // On filtre la vue avec les nouveaux résultats
-            const array = this.dataservice.recipes
-            this.dataservice.filter(array, tag)
+            if (el.className == 'dropdown-item-appliance') {
+                this.dataservice.filterRecipesByTagAppliance(tag)
+            }
+            if (el.className == 'dropdown-item-ustensils') {
+                this.dataservice.filterRecipesByTagUstensils(tag)
+            }
+            if (el.className == 'dropdown-item-ingredients') {
+                this.dataservice.filterRecipesByTagIngredients(tag)
+            }
             this.displayRecipes(this.dataservice.recipes)
             this.displayTagsInputFields()
             this.closeTag()
         })
+    }
+
+    displayTagsInputSearch() {
+        EventService.handleInputEvent(element => {
+            if (element.id === 'ingredients') {
+                let filteredTagsIngredients = this.dataservice.filterTagsInputs(this.dataservice.getTagsIngredients(), element.value)
+                document.querySelector(`.inputBtn-${element.id} .dropdown-menu`).innerHTML = ''
+                filteredTagsIngredients.forEach((e) => InputButton.renderInputTags(element.id, e))
+            }
+            if (element.id === 'appliance') {
+                let filteredTagsAppliance = this.dataservice.filterTagsInputs(this.dataservice.getTagsAppliance(), element.value)
+                document.querySelector(`.inputBtn-${element.id} .dropdown-menu`).innerHTML = ''
+                filteredTagsAppliance.forEach((e) => InputButton.renderInputTags(element.id, e))
+            }
+            if (element.id === 'ustensils') {
+                let filteredTagsUstensils = this.dataservice.filterTagsInputs(this.dataservice.getTagsUstensils(), element.value)
+                document.querySelector(`.inputBtn-${element.id} .dropdown-menu`).innerHTML = ''
+                filteredTagsUstensils.forEach((e) => InputButton.renderInputTags(element.id, e))
+            }
+            // On affiche le tag sous la barre de recherche
+            this.displayTag()
+        })
+
+
     }
 
     closeTag() {
@@ -125,11 +197,11 @@ export default class Controller {
         this.inputButtonIngredients = new InputButton('ingredients')
         this.inputButtonAppliance = new InputButton('appliance')
         this.inputButtonUstensils = new InputButton('ustensils')
-
+        this.displayTagsInputSearch()
         //Affiche les recettes
         this.displayRecipes(this.dataservice.getRecipes())
 
         //Affiche les recettes
-        this.displayRecipesFromFilter()
+        this.displayRecipesFromSearchBarFilter()
     }
 }

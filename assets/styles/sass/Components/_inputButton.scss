@@ -3,6 +3,10 @@
     width: 170px;
     border: none;
 
+    &.d-block {
+        width: auto;
+    }
+
     input {
         color: #FFF;
         text-align: initial;
@@ -39,17 +43,28 @@
         box-shadow: unset;
     }
 
-    .dropdown-menu {
+    .dropdown-menu.d-block {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: space-between;
         left: 0;
         right: 0;
         border: none;
         border-radius: 0 0 .25rem .25rem;
         transform: translateY(-.32rem);
+        width: fit-content;
+        box-sizing: content-box;
 
-        .dropdown-item-ingredients,
-        .dropdown-item-ustensils,
-        .dropdown-item-appliance {
+        .dropdown-items {
             color: #FFF;
+            margin: 1rem;
+            display: flex;
+            flex-direction: column;
+
+            a {
+                width: 12vmax;
+                display: inline-block;
+            }
         }
     }
 
