@@ -14,19 +14,19 @@ export default class DataService {
     }
 
     // Filtre à partir de la search bar
-    filter(arr = [], request = '') {
-        request = request.toLowerCase()
-        if (!request) {
-            this.getRecipes()
-        } else {
-            this.recipes = arr.filter(({ name, description, ingredients }) => {
-                const isIngredient = ingredients.filter(({ ingredient }) =>
-                    ingredient.toLowerCase().includes(request)
-                )
-                return ((name.toLowerCase().indexOf(request.toLowerCase())) > -1 || (description.toLowerCase().indexOf(request))) > -1 || isIngredient.lentgh > 0
-            })
-        }
-    }
+    // filter(arr = [], request = '') {
+    //     request = request.toLowerCase()
+    //     if (!request) {
+    //         this.getRecipes()
+    //     } else {
+    //         this.recipes = arr.filter(({ name, description, ingredients }) => {
+    //             const isIngredient = ingredients.filter(({ ingredient }) =>
+    //                 ingredient.toLowerCase().includes(request)
+    //             )
+    //             return ((name.toLowerCase().indexOf(request.toLowerCase())) > -1 || (description.toLowerCase().indexOf(request))) > -1 || isIngredient.lentgh > 0
+    //         })
+    //     }
+    // }
 
     // Filtres à partir des tags des champs Ustensils, Appliance, Ingredients
     filterRecipesByTagUstensils(request) {
