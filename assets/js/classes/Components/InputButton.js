@@ -39,8 +39,6 @@ export default class InputButton {
                 })
 
             }
-
-
         })
 
         // Close the dropdown if the user clicks outside of it
@@ -58,6 +56,14 @@ export default class InputButton {
                     if (element.classList.contains('rotate')) {
                         element.classList.remove('rotate')
                     }
+                })
+                const inputsBtn = Array.from(document.getElementsByClassName("inputBtn"))
+                inputsBtn.forEach(element => {
+                    if (element.classList.contains('d-block')) {
+                        element.style.width = null
+                        element.classList.remove('d-block')
+                    }
+
                 })
             }
         }
