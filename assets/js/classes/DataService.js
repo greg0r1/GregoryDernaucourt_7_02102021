@@ -6,6 +6,7 @@ export default class DataService {
     constructor() {
         this.recipes = []
         this.currentValuesRequests = []
+        this.resultFilter = []
     }
 
     getRecipes() {
@@ -14,19 +15,60 @@ export default class DataService {
     }
 
     // Filtre à partir de la search bar
-    // filter(arr = [], request = '') {
-    //     request = request.toLowerCase()
-    //     if (!request) {
-    //         this.getRecipes()
-    //     } else {
-    //         this.recipes = arr.filter(({ name, description, ingredients }) => {
-    //             const isIngredient = ingredients.filter(({ ingredient }) =>
-    //                 ingredient.toLowerCase().includes(request)
-    //             )
-    //             return ((name.toLowerCase().indexOf(request.toLowerCase())) > -1 || (description.toLowerCase().indexOf(request))) > -1 || isIngredient.lentgh > 0
-    //         })
-    //     }
-    // }
+    filter_old(arr = [], request = '') {
+        request = request.toLowerCase()
+        if (!request) {
+            this.getRecipes()
+        } else {
+            this.recipes = arr.filter(({ name, description, ingredients }) => {
+                const isIngredient = ingredients.filter(({ ingredient }) =>
+                    ingredient.toLowerCase().includes(request)
+                )
+                return ((name.toLowerCase().indexOf(request.toLowerCase())) > -1 || (description.toLowerCase().indexOf(request))) > -1 || isIngredient.lentgh > 0
+            })
+        }
+    }
+
+    //Native loop
+    filter(arr = [], request = '') {
+        request = request.toLowerCase()
+        if (!request) {
+            this.getRecipes()
+        } else {
+            for (const recipe of arr) {
+                const arrayFromDescription = recipe.description.toLowerCase().split(/[\s,\?\,\.!]+/)
+                for (const element of arrayFromDescription) {
+                    if (element === request) {
+                        if (this.resultFilter.indexOf(recipe) === -1) {
+                            this.resultFilter.push(recipe)
+                        }
+                    }
+
+                }
+
+                const arrayFromName = recipe.name.toLowerCase().split(/[\s,\?\,\.!]+/)
+                for (const element of arrayFromName) {
+                    if (element === request) {
+                        if (this.resultFilter.indexOf(recipe) === -1) {
+                            this.resultFilter.push(recipe)
+                        }
+                    }
+                }
+
+                for (const element of recipe.ingredients) {
+                    const arrayFromIngredient = element.ingredient.toLowerCase().split(/[\s,\?\,\.!]+/)
+                    for (const element of arrayFromIngredient) {
+                        if (element === request) {
+                            if (this.resultFilter.indexOf(recipe) === -1) {
+                                this.resultFilter.push(recipe)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     // Filtres à partir des tags des champs Ustensils, Appliance, Ingredients
     filterRecipesByTagUstensils(request) {

@@ -23,9 +23,11 @@ export default class Controller {
     displayRecipesFromSearchBarFilter() {
         EventService.handleSearchBarEvent((element) => {
             const array = this.dataservice.recipes
+
             if (element.value.length > 2) {
+                this.dataservice.resultFilter = []
                 this.dataservice.filter(array, element.value)
-                this.displayRecipes(array)
+                this.displayRecipes(this.dataservice.resultFilter)
                 this.displayTagsInputFields()
             } else {
                 this.dataservice.getRecipes()
