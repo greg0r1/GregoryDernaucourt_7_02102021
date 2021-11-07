@@ -148,7 +148,7 @@ export default class Controller {
             if (el.className == 'dropdown-item-ingredients') {
                 this.dataservice.filterRecipesByTagIngredients(tag)
             }
-            this.displayRecipes(this.dataservice.recipes)
+            this.displayRecipes(this.dataservice.resultFilter)
             this.displayTagsInputFields()
             this.closeTag()
         })
@@ -186,7 +186,7 @@ export default class Controller {
             this.dataservice.currentValuesRequests.forEach(el => {
                 this.dataservice.filter(this.dataservice.recipes, el)
             })
-            this.displayRecipes(this.dataservice.recipes)
+            this.displayRecipes(this.dataservice.resultFilter)
             this.displayTagsInputFields()
         })
     }

@@ -14,22 +14,7 @@ export default class DataService {
         return this.recipes = recipesFromJson
     }
 
-    // Filtre à partir de la search bar
-    filter_old(arr = [], request = '') {
-        request = request.toLowerCase()
-        if (!request) {
-            this.getRecipes()
-        } else {
-            this.recipes = arr.filter(({ name, description, ingredients }) => {
-                const isIngredient = ingredients.filter(({ ingredient }) =>
-                    ingredient.toLowerCase().includes(request)
-                )
-                return ((name.toLowerCase().indexOf(request.toLowerCase())) > -1 || (description.toLowerCase().indexOf(request))) > -1 || isIngredient.lentgh > 0
-            })
-        }
-    }
-
-    //Native loop
+    //Native loop (barre de recherche)
     filter(arr = [], request = '') {
         request = request.toLowerCase()
         if (!request) {
@@ -69,15 +54,18 @@ export default class DataService {
         }
     }
 
-
-    // Filtres à partir des tags des champs Ustensils, Appliance, Ingredients
     filterRecipesByTagUstensils(request) {
-        this.recipes = this.recipes.filter(({ ustensils }) => {
-            const isUstensils = ustensils.filter(ustensil => {
-                return ustensil.toLowerCase() == request.toLowerCase()
-            })
-            return isUstensils[0] != undefined
-        })
+        let arr = []
+        for (const recipe of this.resultFilter) {
+            for (const element of recipe.ustensils) {
+                if (element.toLowerCase() === request.toLowerCase()) {
+                    if (arr.indexOf(recipe) === -1) {
+                        arr.push(recipe)
+                    }
+                }
+            }
+        }
+        this.resultFilter = arr
     }
 
     filterRecipesByTagAppliance(request) {
