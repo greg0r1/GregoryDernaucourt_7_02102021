@@ -69,9 +69,15 @@ export default class DataService {
     }
 
     filterRecipesByTagAppliance(request) {
-        this.recipes = this.recipes.filter(({ appliance }) => {
-            return appliance == request
-        })
+        let arr = []
+        for (const recipe of this.resultFilter) {
+            if (recipe.appliance.toLowerCase() === request.toLowerCase()) {
+                if (arr.indexOf(recipe) === -1) {
+                    arr.push(recipe)
+                }
+            }
+        }
+        this.resultFilter = arr
     }
 
     filterRecipesByTagIngredients(request) {
@@ -87,10 +93,11 @@ export default class DataService {
     getTagsAppliance() {
         const allTags = []
         this.recipes.forEach(element => {
-            if (allTags.findIndex(e => e === element.appliance) === -1) {
+            if (allTags.indexOf(element.appliance) === -1) {
                 allTags.push(element.appliance)
             }
         })
+        console.log(allTags)
         return allTags
     }
 
