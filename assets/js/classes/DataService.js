@@ -81,35 +81,39 @@ export default class DataService {
     }
 
     filterRecipesByTagIngredients(request) {
-        this.recipes = this.recipes.filter(({ ingredients }) => {
-            const isIngredient = ingredients.filter(({ ingredient }) =>
-                ingredient.toLowerCase().includes(request.toLowerCase())
-            )
-            return isIngredient[0] != undefined
-        })
+        let arr = []
+        for (const recipe of this.resultFilter) {
+            for (const ingredients of recipe.ingredients) {
+                if (ingredients.ingredient.toLowerCase() === request.toLowerCase()) {
+                    if (arr.indexOf(recipe) === -1) {
+                        arr.push(recipe)
+                    }
+                }
+            }
+        }
+        this.resultFilter = arr
     }
 
     // Récupère les tags pour les afficher dans les champs input
     getTagsAppliance() {
         const allTags = []
-        this.recipes.forEach(element => {
+        this.resultFilter.forEach(element => {
             if (allTags.indexOf(element.appliance) === -1) {
                 allTags.push(element.appliance)
             }
         })
-        console.log(allTags)
         return allTags
     }
 
     getTagsUstensils() {
-        const allTags = this.recipes.reduce(
+        const allTags = this.resultFilter.reduce(
             (allTags, { ustensils }) => [...allTags, ...ustensils], []);
         return Array.from(new Set(allTags))
     }
 
     getTagsIngredients() {
         const allTags = []
-        this.recipes.forEach(e => e.ingredients.forEach(element => {
+        this.resultFilter.forEach(e => e.ingredients.forEach(element => {
             if (allTags.indexOf(element.ingredient.toLowerCase()) === -1) {
                 allTags.push(element.ingredient.toLowerCase())
             }
