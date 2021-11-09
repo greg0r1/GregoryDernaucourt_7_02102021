@@ -42,6 +42,14 @@ export default class InputButton {
         })
     }
 
+    static sizeBlockContentTags() {
+        if (document.querySelector('.dropdown-menu.d-block')) {
+            const sizeContent = document.querySelector('.dropdown-menu.d-block').clientWidth
+            document.querySelector('.dropdown-menu.d-block').parentNode.style.width = `${sizeContent}px`
+        }
+
+    }
+
     render(name) {
         const div = document.createElement('div')
         document.getElementById('inputsForm').appendChild(div)
@@ -56,6 +64,7 @@ export default class InputButton {
         </div>`
 
         this.toggleDropdownButton(div)
+
     }
 
     static renderInputTags(element, tag, index) {

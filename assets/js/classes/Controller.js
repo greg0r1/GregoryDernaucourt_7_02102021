@@ -148,9 +148,11 @@ export default class Controller {
             if (el.className == 'dropdown-item-ingredients') {
                 this.dataservice.filterRecipesByTagIngredients(tag)
             }
+
             this.displayRecipes(this.dataservice.recipes)
             this.displayTagsInputFields()
             this.closeTag()
+            InputButton.sizeBlockContentTags()
         })
     }
 
@@ -216,6 +218,7 @@ export default class Controller {
             })
             this.displayRecipes(this.dataservice.recipes)
             this.displayTagsInputFields()
+            InputButton.sizeBlockContentTags()
         })
     }
 
