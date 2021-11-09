@@ -57,8 +57,8 @@ export default class DataService {
     getTagsAppliance() {
         const allTags = []
         this.recipes.forEach(element => {
-            if (allTags.findIndex(e => e === element.appliance) === -1) {
-                allTags.push(element.appliance)
+            if (allTags.findIndex(e => e.toLowerCase() === element.appliance.toLowerCase()) === -1) {
+                allTags.push(element.appliance.toLowerCase())
             }
         })
         return allTags

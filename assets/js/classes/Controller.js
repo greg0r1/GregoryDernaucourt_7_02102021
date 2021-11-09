@@ -23,9 +23,11 @@ export default class Controller {
     displayRecipesFromSearchBarFilter() {
         EventService.handleSearchBarEvent((element) => {
             const array = this.dataservice.recipes
+
             if (element.value.length > 2) {
+                this.dataservice.recipes = []
                 this.dataservice.filter(array, element.value)
-                this.displayRecipes(array)
+                this.displayRecipes(this.dataservice.recipes)
                 this.displayTagsInputFields()
             } else {
                 this.dataservice.getRecipes()
@@ -156,18 +158,46 @@ export default class Controller {
         EventService.handleInputEvent(element => {
             if (element.id === 'ingredients') {
                 let filteredTagsIngredients = this.dataservice.filterTagsInputs(this.dataservice.getTagsIngredients(), element.value)
-                document.querySelector(`.inputBtn-${element.id} .dropdown-menu`).innerHTML = ''
-                filteredTagsIngredients.forEach((e) => InputButton.renderInputTags(element.id, e))
+                document.querySelector(".inputBtn-ingredients .dropdown-menu").innerHTML = ''
+                const arrayByNElementsIngredients = this.chunk(filteredTagsIngredients, 10)
+                arrayByNElementsIngredients.forEach((array, index) => {
+                    const indexEl = index
+                    const div = document.createElement('div')
+                    div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
+                    document.querySelector(`.inputBtn-ingredients .dropdown-menu`).appendChild(div)
+                    array.forEach(item => {
+                        InputButton.renderInputTags('ingredients', item, indexEl)
+                    })
+                })
+
             }
             if (element.id === 'appliance') {
                 let filteredTagsAppliance = this.dataservice.filterTagsInputs(this.dataservice.getTagsAppliance(), element.value)
-                document.querySelector(`.inputBtn-${element.id} .dropdown-menu`).innerHTML = ''
-                filteredTagsAppliance.forEach((e) => InputButton.renderInputTags(element.id, e))
+                document.querySelector(".inputBtn-appliance .dropdown-menu").innerHTML = ''
+                const arrayByNElementsAppliance = this.chunk(filteredTagsAppliance, 10)
+                arrayByNElementsAppliance.forEach((array, index) => {
+                    const indexEl = index
+                    const div = document.createElement('div')
+                    div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
+                    document.querySelector(`.inputBtn-appliance .dropdown-menu`).appendChild(div)
+                    array.forEach(item => {
+                        InputButton.renderInputTags('appliance', item, indexEl)
+                    })
+                })
             }
             if (element.id === 'ustensils') {
                 let filteredTagsUstensils = this.dataservice.filterTagsInputs(this.dataservice.getTagsUstensils(), element.value)
-                document.querySelector(`.inputBtn-${element.id} .dropdown-menu`).innerHTML = ''
-                filteredTagsUstensils.forEach((e) => InputButton.renderInputTags(element.id, e))
+                document.querySelector(".inputBtn-ustensils .dropdown-menu").innerHTML = ''
+                const arrayByNElementsUstensils = this.chunk(filteredTagsUstensils, 10)
+                arrayByNElementsUstensils.forEach((array, index) => {
+                    const indexEl = index
+                    const div = document.createElement('div')
+                    div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
+                    document.querySelector(`.inputBtn-ustensils .dropdown-menu`).appendChild(div)
+                    array.forEach(item => {
+                        InputButton.renderInputTags('ustensils', item, indexEl)
+                    })
+                })
             }
             // On affiche le tag sous la barre de recherche
             this.displayTag()
