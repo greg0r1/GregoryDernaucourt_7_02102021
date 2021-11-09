@@ -54,6 +54,7 @@ export default class DataService {
         }
     }
 
+    // Filtres à partir des tags des champs Ustensils, Appliance, Ingredients
     filterRecipesByTagUstensils(request) {
         let arr = []
         for (const recipe of this.resultFilter) {
@@ -123,7 +124,15 @@ export default class DataService {
 
     // Filtre les tags pour les champs inputs 
     filterTagsInputs(array, request) {
-        let result = array.filter(e => e.includes(request.toLowerCase()))
+        let result = []
+        for (const element of array) {
+            if (element.substring(0, request.length).toLowerCase() === request.toLowerCase()) {
+                if (result.indexOf(element) === -1) {
+                    result.push(element)
+                }
+            }
+
+        }
         return result
     }
 
