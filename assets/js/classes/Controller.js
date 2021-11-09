@@ -151,6 +151,7 @@ export default class Controller {
             this.displayRecipes(this.dataservice.resultFilter)
             this.displayTagsInputFields()
             this.closeTag()
+            InputButton.sizeBlockContentTags()
         })
     }
 
@@ -216,6 +217,7 @@ export default class Controller {
             })
             this.displayRecipes(this.dataservice.resultFilter)
             this.displayTagsInputFields()
+            InputButton.sizeBlockContentTags()
         })
     }
 
