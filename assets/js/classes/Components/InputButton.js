@@ -40,33 +40,6 @@ export default class InputButton {
 
             }
         })
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = (event) => {
-            if (!event.target.matches('.btn.dropdown-toggle')) {
-                const dropdownContent = Array.from(document.getElementsByClassName("dropdown-menu"))
-                dropdownContent.forEach(element => {
-                    if (element.classList.contains('d-block')) {
-                        element.classList.remove('d-block')
-                    }
-
-                })
-                const dropdownwButtons = Array.from(document.getElementsByClassName("dropdown-toggle"))
-                dropdownwButtons.forEach(element => {
-                    if (element.classList.contains('rotate')) {
-                        element.classList.remove('rotate')
-                    }
-                })
-                const inputsBtn = Array.from(document.getElementsByClassName("inputBtn"))
-                inputsBtn.forEach(element => {
-                    if (element.classList.contains('d-block')) {
-                        element.style.width = null
-                        element.classList.remove('d-block')
-                    }
-
-                })
-            }
-        }
     }
 
     render(name) {
