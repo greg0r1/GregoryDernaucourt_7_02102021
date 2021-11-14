@@ -12,11 +12,12 @@ export default class InputButton {
                 element.querySelector("#inputsForm .inputBtn").classList.toggle('d-block')
                 event.currentTarget.classList.toggle('rotate')
                 // Size block
-                if (event.currentTarget.parentNode.parentNode.classList.contains('d-block')) {
+                if (event.currentTarget.parentNode.parentNode.classList.contains('d-block') && event.currentTarget.parentNode.parentNode.querySelector('.dropdown-menu').classList.contains('d-block')) {
                     const sizeContent = event.currentTarget.parentNode.parentNode.querySelector('div.dropdown-menu').clientWidth
                     event.currentTarget.parentNode.parentNode.style.width = `${sizeContent}px`
                 } else {
-                    event.currentTarget.parentNode.parentNode.style.width = null
+                    event.currentTarget.parentNode.parentNode.removeAttribute('style')
+                    event.currentTarget.parentNode.parentNode.classList.remove('d-block')
                 }
 
                 // Close others dropdown
@@ -25,7 +26,7 @@ export default class InputButton {
                     if (el.getBoundingClientRect().x != event.currentTarget.getBoundingClientRect().x) {
                         el.classList.remove('rotate')
                         el.parentNode.parentNode.classList.remove('d-block')
-                        el.parentNode.parentNode.style.width = null
+                        el.parentNode.parentNode.removeAttribute('style')
                     }
                 })
 
@@ -42,10 +43,15 @@ export default class InputButton {
         })
     }
 
-    static sizeBlockContentTags() {
-        if (document.querySelector('.dropdown-menu.d-block')) {
-            const sizeContent = document.querySelector('.dropdown-menu.d-block').clientWidth
-            document.querySelector('.dropdown-menu.d-block').parentNode.style.width = `${sizeContent}px`
+    static setSizeBlockContentTags() {
+        if (document.querySelectorAll('.dropdown-menu.d-block').length !== 0) {
+            document.querySelectorAll('.dropdown-menu.d-block').forEach(e => {
+                const sizeContent = e.clientWidth
+                e.parentNode.style.width = `${sizeContent}px`
+                e.parentNode.querySelector('.input-group-prepend').style.width = `unset`
+            })
+        } else {
+            document.querySelector('.input-group-prepend').removeAttribute('style')
         }
 
     }
