@@ -9,7 +9,7 @@ export default class SearchBar {
                 <input class="border-0 bg-transparent d-inline-flex w-100" type="text"
                     placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette"
                     aria-label="Rechercher un ingrédient, appareil, ustensiles ou une recette">
-                <img src="./node_modules/bootstrap-icons/icons/search.svg" class="" width="25" height="25" alt="">
+                <img src="assets/images/icons/search.svg" class="" width="25" height="25" alt="">
         </form>
         `
     }

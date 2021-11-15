@@ -14,7 +14,7 @@ export default class Article {
                 <div class="recipe-header d-flex justify-content-between align-items-center mb-1">
                     <h2 class="name my-auto">${name}</h2>
                     <div class="time d-flex justify-content-end align-items-center w-25">
-                        <img class="mr-2" src="./node_modules/bootstrap-icons/icons/clock.svg"
+                        <img class="mr-2" src="assets/images/icons/clock.svg"
                             alt="" width="14px" height="14px"><span>${time}</span>
                     </div>
                 </div>
