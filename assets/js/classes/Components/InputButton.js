@@ -59,10 +59,21 @@ export default class InputButton {
     render(name) {
         const div = document.createElement('div')
         document.getElementById('inputsForm').appendChild(div)
+
+        // Traduction
+        let displayName = ''
+        if (name === 'appliance') {
+            displayName = 'appareils'
+        } else if (name === 'ustensils') {
+            displayName = 'ustensiles'
+        } else {
+            displayName = name
+        }
+
         div.innerHTML = `
         <div class= "inputBtn inputBtn-${name} btn btn-group mb-3 mt-3 mr-3 ml-0 row justify-content-start p-3">    
             <div class="input-group-prepend">
-                <input type="text" id="${name}" class="btn w-100 p-2" aria-label="${name}" placeholder="${name}">
+                <input type="text" id="${name}" class="btn w-100 p-2" aria-label="${name}" placeholder="${displayName}">
                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
             </div>

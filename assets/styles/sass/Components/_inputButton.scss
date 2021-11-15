@@ -46,6 +46,7 @@
     .dropdown-menu.d-block {
         display: flex !important;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: space-between;
         left: 0;
         right: 0;

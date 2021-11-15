@@ -35,6 +35,7 @@ export default class Controller {
      */
     displayRecipesFromSearchBarFilter() {
         EventService.handleSearchBarEvent((element) => {
+            this.dataservice.getRecipes()
             const array = this.dataservice.recipes
 
             if (element.value.length > 2) {
@@ -45,6 +46,13 @@ export default class Controller {
             } else {
                 this.dataservice.getRecipes()
                 this.displayRecipes(array)
+                document.querySelectorAll('.inputBtn').forEach(e => {
+                    e.classList.remove('d-block')
+                    e.removeAttribute('style')
+                    e.querySelector('.dropdown-menu').classList.remove('d-block')
+                    e.querySelector('.dropdown-menu').innerHTML = ''
+                    e.querySelector('.dropdown-toggle').classList.add('rotate')
+                })
             }
             if (this.dataservice.recipes.length == 0) {
                 if (!document.querySelector('.error-message')) {
@@ -182,8 +190,8 @@ export default class Controller {
      * @memberof Controller
      */
     filterTagsInputSearch() {
-        if (document.querySelector("#searchBar > form > input").value > 2) {
-            EventService.handleInputEvent(element => {
+        EventService.handleInputEvent(element => {
+            if (document.querySelector("#searchBar > form > input").value > 2) {
                 if (element.id === 'ingredients') {
                     let filteredTagsIngredients = this.dataservice.filterTagsInputs(this.dataservice.getTagsIngredients(), element.value)
                     document.querySelector(".inputBtn-ingredients .dropdown-menu").innerHTML = ''
@@ -249,9 +257,8 @@ export default class Controller {
                 // On affiche le tag sous la barre de recherche
                 this.displayTag()
                 InputButton.setSizeBlockContentTags()
-            })
-        }
-
+            }
+        })
     }
 
     /**
