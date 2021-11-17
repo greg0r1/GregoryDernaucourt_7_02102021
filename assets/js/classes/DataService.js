@@ -25,7 +25,7 @@ export default class DataService {
                 const arrayFromDescription = recipe.description.toLowerCase().split(/[\s,\?\,\.!]+/);
                 for (let index = 0; index < arrayFromDescription.length; index++) {
                     const element = arrayFromDescription[index];
-                    if (element === request) {
+                    if (element.startsWith(request)) {
                         if (this.resultFilter.indexOf(recipe) === -1) {
                             this.resultFilter.push(recipe)
                         }
@@ -35,7 +35,7 @@ export default class DataService {
                 const arrayFromName = recipe.name.toLowerCase().split(/[\s,\?\,\.!]+/)
                 for (let index = 0; index < arrayFromName.length; index++) {
                     const element = arrayFromName[index];
-                    if (element === request) {
+                    if (element.startsWith(request)) {
                         if (this.resultFilter.indexOf(recipe) === -1) {
                             this.resultFilter.push(recipe)
                         }
@@ -47,7 +47,7 @@ export default class DataService {
                     const arrayFromIngredient = element.ingredient.toLowerCase().split(/[\s,\?\,\.!]+/)
                     for (let index = 0; index < arrayFromIngredient.length; index++) {
                         const element = arrayFromIngredient[index];
-                        if (element === request) {
+                        if (element.startsWith(request)) {
                             if (this.resultFilter.indexOf(recipe) === -1) {
                                 this.resultFilter.push(recipe)
                             }
