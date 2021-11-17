@@ -20,19 +20,21 @@ export default class DataService {
         if (!request) {
             this.getRecipes()
         } else {
-            for (const recipe of arr) {
-                const arrayFromDescription = recipe.description.toLowerCase().split(/[\s,\?\,\.!]+/)
-                for (const element of arrayFromDescription) {
+            for (let index = 0; index < arr.length; index++) {
+                const recipe = arr[index];
+                const arrayFromDescription = recipe.description.toLowerCase().split(/[\s,\?\,\.!]+/);
+                for (let index = 0; index < arrayFromDescription.length; index++) {
+                    const element = arrayFromDescription[index];
                     if (element === request) {
                         if (this.resultFilter.indexOf(recipe) === -1) {
                             this.resultFilter.push(recipe)
                         }
                     }
-
                 }
 
                 const arrayFromName = recipe.name.toLowerCase().split(/[\s,\?\,\.!]+/)
-                for (const element of arrayFromName) {
+                for (let index = 0; index < arrayFromName.length; index++) {
+                    const element = arrayFromName[index];
                     if (element === request) {
                         if (this.resultFilter.indexOf(recipe) === -1) {
                             this.resultFilter.push(recipe)
@@ -40,15 +42,18 @@ export default class DataService {
                     }
                 }
 
-                for (const element of recipe.ingredients) {
+                for (let index = 0; index < recipe.ingredients.length; index++) {
+                    const element = recipe.ingredients[index];
                     const arrayFromIngredient = element.ingredient.toLowerCase().split(/[\s,\?\,\.!]+/)
-                    for (const element of arrayFromIngredient) {
+                    for (let index = 0; index < arrayFromIngredient.length; index++) {
+                        const element = arrayFromIngredient[index];
                         if (element === request) {
                             if (this.resultFilter.indexOf(recipe) === -1) {
                                 this.resultFilter.push(recipe)
                             }
                         }
                     }
+
                 }
             }
         }
