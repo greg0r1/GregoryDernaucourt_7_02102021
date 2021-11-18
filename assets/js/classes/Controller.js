@@ -191,7 +191,7 @@ export default class Controller {
      */
     filterTagsInputSearch() {
         EventService.handleInputEvent(element => {
-            if (document.querySelector("#searchBar > form > input").value > 2) {
+            if (document.querySelector("#searchBar > form > input").value.length > 2) {
                 if (element.id === 'ingredients') {
                     let filteredTagsIngredients = this.dataservice.filterTagsInputs(this.dataservice.getTagsIngredients(), element.value)
                     document.querySelector(".inputBtn-ingredients .dropdown-menu").innerHTML = ''
@@ -247,13 +247,6 @@ export default class Controller {
                     }
                 }
 
-                document.querySelectorAll('.inputBtn').forEach(e => {
-                    console.log(element.currentTarget)
-                    if (element) {
-                        e.querySelector('input').value = null
-                        e.querySelector('.dropdown-menu').classList.remove('d-block')
-                    }
-                })
                 // On affiche le tag sous la barre de recherche
                 this.displayTag()
                 InputButton.setSizeBlockContentTags()
