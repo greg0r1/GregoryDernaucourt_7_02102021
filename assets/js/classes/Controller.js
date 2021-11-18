@@ -181,6 +181,18 @@ export default class Controller {
             this.displayTagsInputFields()
             InputButton.setSizeBlockContentTags()
             this.closeTag()
+
+            // Ferme les champs inputs
+            if (document.querySelectorAll('.dropdown-items').length > 0) {
+                document.querySelectorAll('.dropdown-items').forEach((e) => {
+                    e.parentNode.classList.remove('d-block')
+                })
+            }
+            document.querySelectorAll('.input-group-prepend').forEach(e => {
+                e.removeAttribute('style')
+                e.parentNode.removeAttribute('style')
+                e.parentNode.classList.remove('d-block')
+            })
         })
     }
 
@@ -280,7 +292,7 @@ export default class Controller {
                 e.parentNode.classList.remove('d-block')
             })
             document.querySelectorAll("#inputsForm div.dropdown-menu").forEach(e => e.classList.remove('d-block'))
-            document.querySelectorAll("input").forEach(e => e.value = null)
+            document.querySelectorAll("#inputsForm input").forEach(e => e.value = null)
         })
     }
 
