@@ -62,9 +62,11 @@ export default class DataService {
     // Filtres à partir des tags des champs Ustensils, Appliance, Ingredients
     filterRecipesByTagUstensils(request) {
         let arr = []
-        for (const recipe of this.resultFilter) {
-            for (const element of recipe.ustensils) {
-                if (element.toLowerCase() === request.toLowerCase()) {
+        for (let index = 0; index < this.resultFilter.length; index++) {
+            const recipe = this.resultFilter[index];
+            for (let index = 0; index < recipe.ustensils.length; index++) {
+                const element = recipe.ustensils[index];
+                if (element.toLowerCase().startsWith(request.toLowerCase())) {
                     if (arr.indexOf(recipe) === -1) {
                         arr.push(recipe)
                     }
@@ -76,8 +78,9 @@ export default class DataService {
 
     filterRecipesByTagAppliance(request) {
         let arr = []
-        for (const recipe of this.resultFilter) {
-            if (recipe.appliance.toLowerCase() === request.toLowerCase()) {
+        for (let index = 0; index < this.resultFilter.length; index++) {
+            const recipe = this.resultFilter[index];
+            if (recipe.toLowerCase().startsWith(request.toLowerCase())) {
                 if (arr.indexOf(recipe) === -1) {
                     arr.push(recipe)
                 }
@@ -88,14 +91,17 @@ export default class DataService {
 
     filterRecipesByTagIngredients(request) {
         let arr = []
-        for (const recipe of this.resultFilter) {
-            for (const ingredients of recipe.ingredients) {
-                if (ingredients.ingredient.toLowerCase() === request.toLowerCase()) {
+        for (let index = 0; index < this.resultFilter.length; index++) {
+            const recipe = this.resultFilter[index];
+            for (let index = 0; index < recipe.ingredients.length; index++) {
+                const element = recipe.ingredients[index];
+                if (element.ingredient.toLowerCase().startsWith(request.toLowerCase())) {
                     if (arr.indexOf(recipe) === -1) {
                         arr.push(recipe)
                     }
                 }
             }
+
         }
         this.resultFilter = arr
     }
