@@ -10,8 +10,15 @@ export default class Controller {
         this.inputButtonIngredients
         this.inputButtonAppliance
         this.inputButtonUstensils
+        this.init()
     }
 
+    /**
+     * Display component article
+     *
+     * @param {*} recipes
+     * @memberof Controller
+     */
     displayRecipes(recipes) {
         document.querySelector('.container-lg .row').innerHTML = ''
         Object.keys(recipes).map(key => {
@@ -20,8 +27,15 @@ export default class Controller {
         }).join('')
     }
 
+    /**
+     * Display filtered recipes from search bar
+     * Display tags by result into input fileds
+     *
+     * @memberof Controller
+     */
     displayRecipesFromSearchBarFilter() {
         EventService.handleSearchBarEvent((element) => {
+            this.dataservice.getRecipes()
             const array = this.dataservice.recipes
 
             if (element.value.length > 2) {
@@ -32,6 +46,13 @@ export default class Controller {
             } else {
                 this.dataservice.getRecipes()
                 this.displayRecipes(array)
+                document.querySelectorAll('.inputBtn').forEach(e => {
+                    e.classList.remove('d-block')
+                    e.removeAttribute('style')
+                    e.querySelector('.dropdown-menu').classList.remove('d-block')
+                    e.querySelector('.dropdown-menu').innerHTML = ''
+                    e.querySelector('.dropdown-toggle').classList.add('rotate')
+                })
             }
             if (this.dataservice.recipes.length == 0) {
                 if (!document.querySelector('.error-message')) {
@@ -46,17 +67,11 @@ export default class Controller {
         })
     }
 
-    displayRecipesFromApplianceInput() {
-        EventService.handleApplianceInputEvent((element) => {
-            if (element.currentTarget.value.length > 3) {
-                this.dataservice.filterAppliance(this.dataservice.filteredRecipes, element.currentTarget.value)
-                this.displayRecipes(this.dataservice.filteredRecipesByAppliance)
-            } else if (element.currentTarget.value.length < 3) {
-                this.displayRecipes(this.dataservice.recipes)
-            }
-        })
-    }
-
+    /**
+     * Display tag elements from InputButton component
+     *
+     * @memberof Controller
+     */
     displayTagsInputFields() {
         // Ingredients
         let tagsIngredients = this.dataservice.getTagsIngredients()
@@ -104,12 +119,25 @@ export default class Controller {
         this.displayTag()
     }
 
+    /**
+     * Divider for display tags input fields
+     *
+     * @param {*} arr
+     * @param {*} size
+     * @returns
+     * @memberof Controller
+     */
     chunk(arr, size) {
         return Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
             arr.slice(i * size, i * size + size)
         )
     }
 
+    /**
+     * Display tag element from InputButton under search bar
+     *
+     * @memberof Controller
+     */
     displayTag() {
         EventService.handleTagsEvent((el) => {
             if (!document.querySelector('.tags')) {
@@ -148,79 +176,126 @@ export default class Controller {
             if (el.className == 'dropdown-item-ingredients') {
                 this.dataservice.filterRecipesByTagIngredients(tag)
             }
+
             this.displayRecipes(this.dataservice.resultFilter)
             this.displayTagsInputFields()
+            InputButton.setSizeBlockContentTags()
             this.closeTag()
-            InputButton.sizeBlockContentTags()
         })
     }
 
-    displayTagsInputSearch() {
+    /**
+     *
+     *
+     * @memberof Controller
+     */
+    filterTagsInputSearch() {
         EventService.handleInputEvent(element => {
-            if (element.id === 'ingredients') {
-                let filteredTagsIngredients = this.dataservice.filterTagsInputs(this.dataservice.getTagsIngredients(), element.value)
-                document.querySelector(".inputBtn-ingredients .dropdown-menu").innerHTML = ''
-                const arrayByNElementsIngredients = this.chunk(filteredTagsIngredients, 10)
-                arrayByNElementsIngredients.forEach((array, index) => {
-                    const indexEl = index
-                    const div = document.createElement('div')
-                    div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
-                    document.querySelector(`.inputBtn-ingredients .dropdown-menu`).appendChild(div)
-                    array.forEach(item => {
-                        InputButton.renderInputTags('ingredients', item, indexEl)
+            if (document.querySelector("#searchBar > form > input").value > 2) {
+                if (element.id === 'ingredients') {
+                    let filteredTagsIngredients = this.dataservice.filterTagsInputs(this.dataservice.getTagsIngredients(), element.value)
+                    document.querySelector(".inputBtn-ingredients .dropdown-menu").innerHTML = ''
+                    const arrayByNElementsIngredients = this.chunk(filteredTagsIngredients, 10)
+                    arrayByNElementsIngredients.forEach((array, index) => {
+                        const indexEl = index
+                        const div = document.createElement('div')
+                        div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
+                        document.querySelector(`.inputBtn-ingredients .dropdown-menu`).appendChild(div)
+                        array.forEach(item => {
+                            InputButton.renderInputTags('ingredients', item, indexEl)
+                        })
                     })
-                })
+                    if (!document.querySelector('.inputBtn-ingredients .dropdown-menu').classList.contains('d-block')) {
+                        document.querySelector('.inputBtn-ingredients .dropdown-menu').classList.add('d-block')
+                        InputButton.setSizeBlockContentTags()
+                    }
+                }
+                if (element.id === 'appliance') {
+                    let filteredTagsAppliance = this.dataservice.filterTagsInputs(this.dataservice.getTagsAppliance(), element.value)
+                    document.querySelector(".inputBtn-appliance .dropdown-menu").innerHTML = ''
+                    const arrayByNElementsAppliance = this.chunk(filteredTagsAppliance, 10)
+                    arrayByNElementsAppliance.forEach((array, index) => {
+                        const indexEl = index
+                        const div = document.createElement('div')
+                        div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
+                        document.querySelector(`.inputBtn-appliance .dropdown-menu`).appendChild(div)
+                        array.forEach(item => {
+                            InputButton.renderInputTags('appliance', item, indexEl)
+                        })
+                    })
+                    if (!document.querySelector('.inputBtn-appliance .dropdown-menu').classList.contains('d-block')) {
+                        document.querySelector('.inputBtn-appliance .dropdown-menu').classList.add('d-block')
+                        InputButton.setSizeBlockContentTags()
+                    }
+                }
+                if (element.id === 'ustensils') {
+                    let filteredTagsUstensils = this.dataservice.filterTagsInputs(this.dataservice.getTagsUstensils(), element.value)
+                    document.querySelector(".inputBtn-ustensils .dropdown-menu").innerHTML = ''
+                    const arrayByNElementsUstensils = this.chunk(filteredTagsUstensils, 10)
+                    arrayByNElementsUstensils.forEach((array, index) => {
+                        const indexEl = index
+                        const div = document.createElement('div')
+                        div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
+                        document.querySelector(`.inputBtn-ustensils .dropdown-menu`).appendChild(div)
+                        array.forEach(item => {
+                            InputButton.renderInputTags('ustensils', item, indexEl)
+                        })
+                    })
+                    if (!document.querySelector('.inputBtn-ustensils .dropdown-menu').classList.contains('d-block')) {
+                        document.querySelector('.inputBtn-ustensils .dropdown-menu').classList.add('d-block')
+                        InputButton.setSizeBlockContentTags()
+                    }
+                }
 
-            }
-            if (element.id === 'appliance') {
-                let filteredTagsAppliance = this.dataservice.filterTagsInputs(this.dataservice.getTagsAppliance(), element.value)
-                document.querySelector(".inputBtn-appliance .dropdown-menu").innerHTML = ''
-                const arrayByNElementsAppliance = this.chunk(filteredTagsAppliance, 10)
-                arrayByNElementsAppliance.forEach((array, index) => {
-                    const indexEl = index
-                    const div = document.createElement('div')
-                    div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
-                    document.querySelector(`.inputBtn-appliance .dropdown-menu`).appendChild(div)
-                    array.forEach(item => {
-                        InputButton.renderInputTags('appliance', item, indexEl)
-                    })
+                document.querySelectorAll('.inputBtn').forEach(e => {
+                    console.log(element.currentTarget)
+                    if (element) {
+                        e.querySelector('input').value = null
+                        e.querySelector('.dropdown-menu').classList.remove('d-block')
+                    }
                 })
+                // On affiche le tag sous la barre de recherche
+                this.displayTag()
+                InputButton.setSizeBlockContentTags()
             }
-            if (element.id === 'ustensils') {
-                let filteredTagsUstensils = this.dataservice.filterTagsInputs(this.dataservice.getTagsUstensils(), element.value)
-                document.querySelector(".inputBtn-ustensils .dropdown-menu").innerHTML = ''
-                const arrayByNElementsUstensils = this.chunk(filteredTagsUstensils, 10)
-                arrayByNElementsUstensils.forEach((array, index) => {
-                    const indexEl = index
-                    const div = document.createElement('div')
-                    div.classList.add('dropdown-items', `dropdown-items-${indexEl}`)
-                    document.querySelector(`.inputBtn-ustensils .dropdown-menu`).appendChild(div)
-                    array.forEach(item => {
-                        InputButton.renderInputTags('ustensils', item, indexEl)
-                    })
-                })
-            }
-            // On affiche le tag sous la barre de recherche
-            this.displayTag()
         })
-
-
     }
 
+    /**
+     *
+     *
+     * @memberof Controller
+     */
     closeTag() {
         EventService.handleTagsClose((el) => {
             el.parentNode.remove()
-            this.dataservice.arrayFromValuesRequests()
+            this.dataservice.getDisplayedRequestValues()
             this.dataservice.getRecipes()
             this.dataservice.currentValuesRequests.forEach(el => {
                 this.dataservice.filter(this.dataservice.recipes, el)
             })
             this.displayRecipes(this.dataservice.resultFilter)
             this.displayTagsInputFields()
-            InputButton.sizeBlockContentTags()
+            if (document.querySelectorAll('.dropdown-items').length > 0) {
+                document.querySelectorAll('.dropdown-items').forEach((e) => {
+                    e.parentNode.classList.remove('d-block')
+                })
+            }
+            document.querySelectorAll('.input-group-prepend').forEach(e => {
+                e.removeAttribute('style')
+                e.parentNode.removeAttribute('style')
+                e.parentNode.classList.remove('d-block')
+            })
+            document.querySelectorAll("#inputsForm div.dropdown-menu").forEach(e => e.classList.remove('d-block'))
+            document.querySelectorAll("input").forEach(e => e.value = null)
         })
     }
 
+    /**
+     *
+     *
+     * @memberof Controller
+     */
     init() {
         //Affiche la barre de recherche
         Searchbar.render()
@@ -229,7 +304,7 @@ export default class Controller {
         this.inputButtonIngredients = new InputButton('ingredients')
         this.inputButtonAppliance = new InputButton('appliance')
         this.inputButtonUstensils = new InputButton('ustensils')
-        this.displayTagsInputSearch()
+        this.filterTagsInputSearch()
         //Affiche les recettes
         this.displayRecipes(this.dataservice.getRecipes())
 

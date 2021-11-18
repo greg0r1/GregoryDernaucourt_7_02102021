@@ -12,11 +12,12 @@ export default class InputButton {
                 element.querySelector("#inputsForm .inputBtn").classList.toggle('d-block')
                 event.currentTarget.classList.toggle('rotate')
                 // Size block
-                if (event.currentTarget.parentNode.parentNode.classList.contains('d-block')) {
+                if (event.currentTarget.parentNode.parentNode.classList.contains('d-block') && event.currentTarget.parentNode.parentNode.querySelector('.dropdown-menu').classList.contains('d-block')) {
                     const sizeContent = event.currentTarget.parentNode.parentNode.querySelector('div.dropdown-menu').clientWidth
                     event.currentTarget.parentNode.parentNode.style.width = `${sizeContent}px`
                 } else {
-                    event.currentTarget.parentNode.parentNode.style.width = null
+                    event.currentTarget.parentNode.parentNode.removeAttribute('style')
+                    event.currentTarget.parentNode.parentNode.classList.remove('d-block')
                 }
 
                 // Close others dropdown
@@ -25,7 +26,7 @@ export default class InputButton {
                     if (el.getBoundingClientRect().x != event.currentTarget.getBoundingClientRect().x) {
                         el.classList.remove('rotate')
                         el.parentNode.parentNode.classList.remove('d-block')
-                        el.parentNode.parentNode.style.width = null
+                        el.parentNode.parentNode.removeAttribute('style')
                     }
                 })
 
@@ -40,39 +41,17 @@ export default class InputButton {
 
             }
         })
-
-        // Close the dropdown if the user clicks outside of it
-        // window.onclick = (event) => {
-        //     if (!event.target.matches('.btn.dropdown-toggle')) {
-        //         const dropdownContent = Array.from(document.getElementsByClassName("dropdown-menu"))
-        //         dropdownContent.forEach(element => {
-        //             if (element.classList.contains('d-block')) {
-        //                 element.classList.remove('d-block')
-        //             }
-
-        //         })
-        //         const dropdownwButtons = Array.from(document.getElementsByClassName("dropdown-toggle"))
-        //         dropdownwButtons.forEach(element => {
-        //             if (element.classList.contains('rotate')) {
-        //                 element.classList.remove('rotate')
-        //             }
-        //         })
-        //         const inputsBtn = Array.from(document.getElementsByClassName("inputBtn"))
-        //         inputsBtn.forEach(element => {
-        //             if (element.classList.contains('d-block')) {
-        //                 element.style.width = null
-        //                 element.classList.remove('d-block')
-        //             }
-
-        //         })
-        //     }
-        // }
     }
 
-    static sizeBlockContentTags() {
-        if (document.querySelector('.dropdown-menu.d-block')) {
-            const sizeContent = document.querySelector('.dropdown-menu.d-block').clientWidth
-            document.querySelector('.dropdown-menu.d-block').parentNode.style.width = `${sizeContent}px`
+    static setSizeBlockContentTags() {
+        if (document.querySelectorAll('.dropdown-menu.d-block').length !== 0) {
+            document.querySelectorAll('.dropdown-menu.d-block').forEach(e => {
+                const sizeContent = e.clientWidth
+                e.parentNode.style.width = `${sizeContent}px`
+                e.parentNode.querySelector('.input-group-prepend').style.width = `unset`
+            })
+        } else {
+            document.querySelector('.input-group-prepend').removeAttribute('style')
         }
 
     }
@@ -80,10 +59,21 @@ export default class InputButton {
     render(name) {
         const div = document.createElement('div')
         document.getElementById('inputsForm').appendChild(div)
+
+        // Traduction
+        let displayName = ''
+        if (name === 'appliance') {
+            displayName = 'appareils'
+        } else if (name === 'ustensils') {
+            displayName = 'ustensiles'
+        } else {
+            displayName = name
+        }
+
         div.innerHTML = `
         <div class= "inputBtn inputBtn-${name} btn btn-group mb-3 mt-3 mr-3 ml-0 row justify-content-start p-3">    
             <div class="input-group-prepend">
-                <input type="text" id="${name}" class="btn w-100 p-2" aria-label="${name}" placeholder="${name}">
+                <input type="text" id="${name}" class="btn w-100 p-2" aria-label="${name}" placeholder="${displayName}">
                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
             </div>
@@ -91,6 +81,7 @@ export default class InputButton {
         </div>`
 
         this.toggleDropdownButton(div)
+
     }
 
     static renderInputTags(element, tag, index) {
