@@ -12,14 +12,6 @@
 
     p {
         display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -moz-box-orient: vertical;
-        -ms-box-orient: vertical;
-        box-orient: vertical;
-        -webkit-line-clamp: 9;
-        -moz-line-clamp: 6;
-        -ms-line-clamp: 6;
-        line-clamp: 6;
         text-overflow: ellipsis;
         overflow: hidden;
     }
