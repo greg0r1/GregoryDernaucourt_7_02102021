@@ -4,6 +4,15 @@
     box-sizing: border-box;
     overflow: hidden;
 
+    .recipe-header {
+        height: 40%;
+    }
+
+    .justify-content-between:last-child {
+        height: 60%;
+        overflow: hidden;
+    }
+
     span,
     li {
         margin: 0;
@@ -11,9 +20,20 @@
     }
 
     p {
-        display: -webkit-box;
         text-overflow: ellipsis;
         overflow: hidden;
+    }
+
+    .recipe-description.card-text {
+        position: relative;
+    }
+
+    .recipe-description.card-text:after {
+        content: "...";
+        position: absolute;
+        background-color: #FFF;
+        bottom: -2px;
+        right: 0;
     }
 
     span:first-child {
