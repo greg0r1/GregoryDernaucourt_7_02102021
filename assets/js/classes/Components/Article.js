@@ -1,5 +1,15 @@
 export default class Article {
-
+    /**
+     * Render html
+     *
+     * @static
+     * @param {*} name
+     * @param {*} time
+     * @param {*} description
+     * @param {*} ingredients
+     * @returns
+     * @memberof Article
+     */
     static toString(name, time, description, ingredients) {
         const div = document.createElement('div')
         div.classList.add("col-md-4")
@@ -33,5 +43,32 @@ export default class Article {
         </article>`
 
         return div
+    }
+
+    /**
+     * Ellipsis text overflow
+     *
+     * @static
+     * @memberof Article
+     */
+    static ellipsisTextOverflow() {
+        const textContainers = document.querySelectorAll('.recipe-description')
+        textContainers.forEach(element => {
+            const p = element.querySelector('p')
+            p.style.whiteSpace = 'nowrap';
+            const parent = p.parentNode;
+            const maxLineCount = Math.floor(parent.clientHeight / p.clientHeight);
+            const maxLineHeight = p.clientHeight * maxLineCount;
+            p.style.whiteSpace = 'normal';
+
+            if (p.clientHeight > maxLineHeight) {
+                var max = maxLineCount * p.style.lineHeight;
+                for (var i = 0; p.offsetHeight > maxLineHeight; i++) {
+                    p.innerHTML = p.textContent.slice(0, -2) + '&hellip;';
+                    i++;
+                    if (i === max) break;
+                }
+            }
+        })
     }
 }

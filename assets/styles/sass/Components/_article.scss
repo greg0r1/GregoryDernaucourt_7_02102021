@@ -21,19 +21,11 @@
 
     p {
         text-overflow: ellipsis;
-        overflow: hidden;
+        margin-bottom: 0;
     }
 
     .recipe-description.card-text {
         position: relative;
-    }
-
-    .recipe-description.card-text:after {
-        content: "...";
-        position: absolute;
-        background-color: #FFF;
-        bottom: -2px;
-        right: 0;
     }
 
     span:first-child {

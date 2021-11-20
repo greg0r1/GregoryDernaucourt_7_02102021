@@ -25,6 +25,7 @@ export default class Controller {
             let article = Article.toString(recipes[key].name, recipes[key].time, recipes[key].description, recipes[key].ingredients)
             document.querySelector('main .row').appendChild(article)
         }).join('')
+        Article.ellipsisTextOverflow()
     }
 
     /**

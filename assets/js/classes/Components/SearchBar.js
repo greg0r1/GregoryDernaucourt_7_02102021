@@ -1,6 +1,11 @@
 export default class SearchBar {
-    constructor() { }
 
+    /**
+     * Render HTML
+     *
+     * @static
+     * @memberof SearchBar
+     */
     static render() {
         document.getElementById('searchBar').innerHTML =
             `
