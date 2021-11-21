@@ -50,6 +50,7 @@ export default class Article {
     /**
      * Ellipsis text overflow
      *
+     * @static
      * @memberof Article
      */
     static ellipsisTextOverflow() {
@@ -65,6 +66,12 @@ export default class Article {
         })
     }
 
+    /**
+     * Hide overflow ingredients
+     *
+     * @static
+     * @memberof Article
+     */
     static overflowUlList() {
         const ulContainer = document.querySelectorAll('.recipe-ingredients')
         ulContainer.forEach((element) => {
