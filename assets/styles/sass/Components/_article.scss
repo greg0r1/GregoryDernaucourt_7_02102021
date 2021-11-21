@@ -29,6 +29,10 @@
         position: relative;
     }
 
+    .justify-content-between div {
+        margin: 0 2px;
+    }
+
     span:first-child {
         font-weight: 600;
     }

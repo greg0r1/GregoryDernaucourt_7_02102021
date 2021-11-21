@@ -26,6 +26,7 @@ export default class Controller {
             document.querySelector('main .row').appendChild(article)
         }).join('')
         Article.ellipsisTextOverflow()
+        Article.overflowUlList()
     }
 
     /**

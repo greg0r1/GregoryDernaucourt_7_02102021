@@ -64,4 +64,14 @@ export default class Article {
             }
         })
     }
+
+    static overflowUlList() {
+        const ulContainer = document.querySelectorAll('.recipe-ingredients')
+        ulContainer.forEach((element) => {
+            const ul = element.querySelector('ul')
+            if (ul.clientHeight > element.clientHeight) {
+                element.querySelector('li:nth-child(4n)').remove()
+            }
+        })
+    }
 }
