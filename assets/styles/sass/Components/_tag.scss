@@ -28,11 +28,12 @@
         border-radius: 50%;
         background: none;
         position: relative;
+        padding: 7px;
 
         &::after,
         &::before {
             position: absolute;
-            top: 10%;
+            top: 8%;
             left: 20%;
             right: 20%;
             content: " ";
