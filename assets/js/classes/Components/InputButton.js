@@ -60,7 +60,7 @@ export default class InputButton {
             document.querySelectorAll('.dropdown-menu.d-block').forEach(e => {
                 const sizeContent = e.clientWidth
                 e.parentNode.style.width = `${sizeContent}px`
-                e.parentNode.querySelector('.input-group-prepend').style.width = `unset`
+                // e.parentNode.querySelector('.input-group-prepend').style.width = `unset`
             })
         } else {
             document.querySelector('.input-group-prepend').removeAttribute('style')

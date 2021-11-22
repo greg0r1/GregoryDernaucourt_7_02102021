@@ -39,6 +39,19 @@ export default class Controller {
         EventService.handleSearchBarEvent((element) => {
             this.dataservice.getRecipes()
             const array = this.dataservice.recipes
+            element.addEventListener('keydown', (event) => {
+                if (event.keyCode === 8) {
+                    document.querySelectorAll('.inputBtn').forEach(e => {
+                        if (document.querySelector('.dropdown-items')) {
+                            e.classList.remove('d-block')
+                            e.removeAttribute('style')
+                            e.querySelector('.dropdown-menu').classList.remove('d-block')
+                            e.querySelector('.dropdown-menu').innerHTML = ''
+                            e.querySelector('.dropdown-toggle').classList.remove('rotate')
+                        }
+                    })
+                }
+            })
 
             if (element.value.length > 2) {
                 this.dataservice.recipes = []
