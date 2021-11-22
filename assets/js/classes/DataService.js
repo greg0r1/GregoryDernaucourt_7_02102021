@@ -135,7 +135,7 @@ export default class DataService {
      * @memberof DataService
      */
     filterTagsInputs(array, request) {
-        let result = array.filter(e => e.includes(request.toLowerCase()))
+        let result = array.filter(e => e.startsWith(request.toLowerCase()))
         return result
     }
 
