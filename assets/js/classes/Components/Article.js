@@ -59,9 +59,15 @@ export default class Article {
             const p = element.querySelector('p')
             if (p.clientHeight > element.clientHeight) {
                 p.style.height = `${element.clientHeight}px`
-                const arrayFromP = Array.from(p.innerText.split(' '))
-                const arrayFromPToString = arrayFromP.slice(0, 30).join(' ')
-                p.innerHTML = arrayFromPToString + '&hellip;';
+                const arrayFromP = Array.from(p.innerText)
+                if (window.innerWidth > 1200) {
+                    const arrayFromPToString = arrayFromP.slice(0, 180).join('')
+                    p.innerHTML = arrayFromPToString + '&hellip;';
+                }
+                if (window.innerWidth < 1200) {
+                    const arrayFromPToString = arrayFromP.slice(0, 120).join('')
+                    p.innerHTML = arrayFromPToString + '&hellip;';
+                }
             }
         })
     }

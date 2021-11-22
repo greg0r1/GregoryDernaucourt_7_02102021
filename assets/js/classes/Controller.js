@@ -49,11 +49,13 @@ export default class Controller {
                 this.dataservice.getRecipes()
                 this.displayRecipes(array)
                 document.querySelectorAll('.inputBtn').forEach(e => {
-                    e.classList.remove('d-block')
-                    e.removeAttribute('style')
-                    e.querySelector('.dropdown-menu').classList.remove('d-block')
-                    e.querySelector('.dropdown-menu').innerHTML = ''
-                    e.querySelector('.dropdown-toggle').classList.add('rotate')
+                    if (document.querySelector('.dropdown-items')) {
+                        e.classList.remove('d-block')
+                        e.removeAttribute('style')
+                        e.querySelector('.dropdown-menu').classList.remove('d-block')
+                        e.querySelector('.dropdown-menu').innerHTML = ''
+                        e.querySelector('.dropdown-toggle').classList.remove('rotate')
+                    }
                 })
             }
             if (this.dataservice.recipes.length == 0) {
