@@ -203,6 +203,7 @@ export default class Controller {
             if (document.querySelectorAll('.dropdown-items').length > 0) {
                 document.querySelectorAll('.dropdown-items').forEach((e) => {
                     e.parentNode.classList.remove('d-block')
+                    e.parentNode.parentNode.querySelector('.dropdown-toggle').classList.remove('rotate')
                 })
             }
             document.querySelectorAll('.input-group-prepend').forEach(e => {
@@ -301,6 +302,7 @@ export default class Controller {
             if (document.querySelectorAll('.dropdown-items').length > 0) {
                 document.querySelectorAll('.dropdown-items').forEach((e) => {
                     e.parentNode.classList.remove('d-block')
+                    e.parentNode.parentNode.querySelector('.dropdown-toggle').classList.remove('rotate')
                 })
             }
             document.querySelectorAll('.input-group-prepend').forEach(e => {
