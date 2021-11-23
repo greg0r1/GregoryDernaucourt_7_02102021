@@ -126,11 +126,14 @@ export default class InputButton {
      * @memberof InputButton
      */
     static renderTags(tag, bg) {
-        document.querySelector('.tags .row').innerHTML += `
-                <div class="tag btn p-2 m-2 bg-${bg}"> ${tag.charAt(0).toUpperCase()}${tag.slice(1).toLowerCase()}
-                <button type="button" class="btn-close" aria-label="Close"></button>
-            </div>
-                    `
+        console.log(document.querySelector(`${tag}`))
+        if (!document.querySelector(`.${tag}`)) {
+            document.querySelector('.tags .row').innerHTML += `
+                    <div class="tag btn p-2 m-2 bg-${bg} ${tag}"> ${tag.charAt(0).toUpperCase()}${tag.slice(1).toLowerCase()}
+                    <button type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+                        `
+        }
     }
 
 }
