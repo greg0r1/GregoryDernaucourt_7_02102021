@@ -148,7 +148,7 @@ export default class DataService {
     }
 
     // Récupère les valeurs dans l'interface pour les filtres
-    arrayFromValuesRequests() {
+    getDisplayedRequestValues() {
         const tagsEl = Array.from(document.querySelectorAll('.tag'))
         const inputValue = document.querySelector("#searchBar > form > input").value
         this.currentValuesRequests = []

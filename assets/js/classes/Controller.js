@@ -25,6 +25,8 @@ export default class Controller {
             let article = Article.toString(recipes[key].name, recipes[key].time, recipes[key].description, recipes[key].ingredients)
             document.querySelector('main .row').appendChild(article)
         }).join('')
+        Article.ellipsisTextOverflow()
+        Article.overflowUlList()
     }
 
     /**
@@ -37,6 +39,19 @@ export default class Controller {
         EventService.handleSearchBarEvent((element) => {
             this.dataservice.getRecipes()
             const array = this.dataservice.recipes
+            element.addEventListener('keydown', (event) => {
+                if (event.keyCode === 8) {
+                    document.querySelectorAll('.inputBtn').forEach(e => {
+                        if (document.querySelector('.dropdown-items')) {
+                            e.classList.remove('d-block')
+                            e.removeAttribute('style')
+                            e.querySelector('.dropdown-menu').classList.remove('d-block')
+                            e.querySelector('.dropdown-menu').innerHTML = ''
+                            e.querySelector('.dropdown-toggle').classList.remove('rotate')
+                        }
+                    })
+                }
+            })
 
             if (element.value.length > 2) {
                 this.dataservice.resultFilter = []
@@ -47,11 +62,13 @@ export default class Controller {
                 this.dataservice.getRecipes()
                 this.displayRecipes(array)
                 document.querySelectorAll('.inputBtn').forEach(e => {
-                    e.classList.remove('d-block')
-                    e.removeAttribute('style')
-                    e.querySelector('.dropdown-menu').classList.remove('d-block')
-                    e.querySelector('.dropdown-menu').innerHTML = ''
-                    e.querySelector('.dropdown-toggle').classList.add('rotate')
+                    if (document.querySelector('.dropdown-items')) {
+                        e.classList.remove('d-block')
+                        e.removeAttribute('style')
+                        e.querySelector('.dropdown-menu').classList.remove('d-block')
+                        e.querySelector('.dropdown-menu').innerHTML = ''
+                        e.querySelector('.dropdown-toggle').classList.remove('rotate')
+                    }
                 })
             }
             if (this.dataservice.recipes.length == 0) {
@@ -181,6 +198,19 @@ export default class Controller {
             this.displayTagsInputFields()
             InputButton.setSizeBlockContentTags()
             this.closeTag()
+
+            // Ferme les champs inputs
+            if (document.querySelectorAll('.dropdown-items').length > 0) {
+                document.querySelectorAll('.dropdown-items').forEach((e) => {
+                    e.parentNode.classList.remove('d-block')
+                    e.parentNode.parentNode.querySelector('.dropdown-toggle').classList.remove('rotate')
+                })
+            }
+            document.querySelectorAll('.input-group-prepend').forEach(e => {
+                e.removeAttribute('style')
+                e.parentNode.removeAttribute('style')
+                e.parentNode.classList.remove('d-block')
+            })
         })
     }
 
@@ -272,6 +302,7 @@ export default class Controller {
             if (document.querySelectorAll('.dropdown-items').length > 0) {
                 document.querySelectorAll('.dropdown-items').forEach((e) => {
                     e.parentNode.classList.remove('d-block')
+                    e.parentNode.parentNode.querySelector('.dropdown-toggle').classList.remove('rotate')
                 })
             }
             document.querySelectorAll('.input-group-prepend').forEach(e => {
@@ -280,7 +311,7 @@ export default class Controller {
                 e.parentNode.classList.remove('d-block')
             })
             document.querySelectorAll("#inputsForm div.dropdown-menu").forEach(e => e.classList.remove('d-block'))
-            document.querySelectorAll("input").forEach(e => e.value = null)
+            document.querySelectorAll("#inputsForm input").forEach(e => e.value = null)
         })
     }
 

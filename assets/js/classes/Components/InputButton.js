@@ -4,6 +4,12 @@ export default class InputButton {
         this.render(this.name)
     }
 
+    /**
+     * Toogle button
+     *
+     * @param {*} element
+     * @memberof InputButton
+     */
     toggleDropdownButton(element) {
         element.querySelector('.dropdown-toggle').addEventListener('click', (event) => {
 
@@ -43,12 +49,18 @@ export default class InputButton {
         })
     }
 
+    /**
+     * Resize tags blocks
+     *
+     * @static
+     * @memberof InputButton
+     */
     static setSizeBlockContentTags() {
         if (document.querySelectorAll('.dropdown-menu.d-block').length !== 0) {
             document.querySelectorAll('.dropdown-menu.d-block').forEach(e => {
                 const sizeContent = e.clientWidth
                 e.parentNode.style.width = `${sizeContent}px`
-                e.parentNode.querySelector('.input-group-prepend').style.width = `unset`
+                // e.parentNode.querySelector('.input-group-prepend').style.width = `unset`
             })
         } else {
             document.querySelector('.input-group-prepend').removeAttribute('style')
@@ -56,6 +68,12 @@ export default class InputButton {
 
     }
 
+    /**
+     * Render HTML
+     *
+     * @param {*} name
+     * @memberof InputButton
+     */
     render(name) {
         const div = document.createElement('div')
         document.getElementById('inputsForm').appendChild(div)
@@ -73,7 +91,7 @@ export default class InputButton {
         div.innerHTML = `
         <div class= "inputBtn inputBtn-${name} btn btn-group mb-3 mt-3 mr-3 ml-0 row justify-content-start p-3">    
             <div class="input-group-prepend">
-                <input type="text" id="${name}" class="btn w-100 p-2" aria-label="${name}" placeholder="${displayName}">
+                <input type="text" id="${name}" class="btn w-100 p-2" aria-label="${name}" placeholder="${displayName.charAt(0).toUpperCase()}${displayName.slice(1).toLowerCase()}">
                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
             </div>
@@ -84,12 +102,29 @@ export default class InputButton {
 
     }
 
+    /**
+     * Render input tags HTML
+     *
+     * @static
+     * @param {*} element
+     * @param {*} tag
+     * @param {*} index
+     * @memberof InputButton
+     */
     static renderInputTags(element, tag, index) {
         document.querySelector(`.inputBtn-${element} .dropdown-items-${index}`).innerHTML += `
-                <a class="dropdown-item-${element}"> ${tag.charAt(0).toUpperCase()}${tag.slice(1).toLowerCase()}</a>
+                <a class="dropdown-item-${element}">${tag.charAt(0).toUpperCase()}${tag.slice(1).toLowerCase()}</a>
                 `
     }
 
+    /**
+     * Render tags HTML
+     *
+     * @static
+     * @param {*} tag
+     * @param {*} bg
+     * @memberof InputButton
+     */
     static renderTags(tag, bg) {
         document.querySelector('.tags .row').innerHTML += `
                 <div class="tag btn p-2 m-2 bg-${bg}"> ${tag.charAt(0).toUpperCase()}${tag.slice(1).toLowerCase()}

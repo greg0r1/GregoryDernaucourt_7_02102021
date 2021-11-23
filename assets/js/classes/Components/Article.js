@@ -1,5 +1,17 @@
 export default class Article {
 
+    /**
+     * Render html
+     *
+     * @static
+     * @param {*} name
+     * @param {*} time
+     * @param {*} description
+     * @param {*} ingredients
+     * @returns
+     * @memberof Article
+     */
+
     static toString(name, time, description, ingredients) {
         const div = document.createElement('div')
         div.classList.add("col-md-4")
@@ -14,7 +26,7 @@ export default class Article {
                 <div class="recipe-header d-flex justify-content-between align-items-center mb-1">
                     <h2 class="name my-auto">${name}</h2>
                     <div class="time d-flex justify-content-end align-items-center w-25">
-                        <img class="mr-2" src="./node_modules/bootstrap-icons/icons/clock.svg"
+                        <img class="mr-2" src="assets/images/icons/clock.svg"
                             alt="" width="14px" height="14px"><span>${time}</span>
                     </div>
                 </div>
@@ -33,5 +45,46 @@ export default class Article {
         </article>`
 
         return div
+    }
+
+    /**
+     * Ellipsis text overflow
+     *
+     * @static
+     * @memberof Article
+     */
+    static ellipsisTextOverflow() {
+        const textContainers = document.querySelectorAll('.recipe-description')
+        textContainers.forEach((element) => {
+            const p = element.querySelector('p')
+            if (p.clientHeight > element.clientHeight) {
+                p.style.height = `${element.clientHeight}px`
+                const arrayFromP = Array.from(p.innerText)
+                if (window.innerWidth > 1200) {
+                    const arrayFromPToString = arrayFromP.slice(0, 180).join('')
+                    p.innerHTML = arrayFromPToString + '&hellip;';
+                }
+                if (window.innerWidth < 1200) {
+                    const arrayFromPToString = arrayFromP.slice(0, 120).join('')
+                    p.innerHTML = arrayFromPToString + '&hellip;';
+                }
+            }
+        })
+    }
+
+    /**
+     * Hide overflow ingredients
+     *
+     * @static
+     * @memberof Article
+     */
+    static overflowUlList() {
+        const ulContainer = document.querySelectorAll('.recipe-ingredients')
+        ulContainer.forEach((element) => {
+            const ul = element.querySelector('ul')
+            if (ul.clientHeight > element.clientHeight) {
+                element.querySelector('li:nth-child(4n)').remove()
+            }
+        })
     }
 }
